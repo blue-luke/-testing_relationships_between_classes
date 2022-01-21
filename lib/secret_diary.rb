@@ -20,12 +20,12 @@ class SecretDiary
 
   def read
     return "Go away!" unless @unlocked
-    @diary.read
+    # @diary.read
   end
 
   def write(new_message)
     return "Go away!" unless @unlocked
-    @diary.write(new_message)
+    # @diary.write(new_message)
     nil
   end
 end

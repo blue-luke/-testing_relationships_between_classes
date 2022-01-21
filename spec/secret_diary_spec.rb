@@ -33,17 +33,22 @@ RSpec.describe SecretDiary do
 
   context "when unlocked" do
     it 'gets read' do
-      diary_double = double("Diary", :read => "Go shoppping", :write => true)
-      sd = SecretDiary.new(diary_double)
-      sd.unlock
-      expect(sd.read).to eq "Go shoppping"
-    end
-    it 'gets written' do
       diary_double = double("Diary", :read => "Go shoppping")
       sd = SecretDiary.new(diary_double)
+
       sd.unlock
-      allow(diary_double).to receive(:write).with("Eat chips")
+      sd.read
+
+      expect(diary_double).to have_received(:read)
+    end
+    it 'gets written' do
+      diary_double = double("Diary", :read => "Go shoppping", :write => true)
+      sd = SecretDiary.new(diary_double)
+
+      sd.unlock
       sd.write("Eat chips")
+
+      expect(diary_double).to have_received(:write).with("Eat chips")
     end
   end
 end

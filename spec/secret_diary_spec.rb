@@ -23,14 +23,27 @@ RSpec.describe SecretDiary do
       diary_double = double("diary")
       sd = SecretDiary.new(diary_double)
       expect(sd.read).to eq "Go away!"
-      # pending "refuses to be read"
     end
-    pending "refuses to be written"
+    it 'refuses to be written' do
+      diary_double = double("diary")
+      sd = SecretDiary.new(diary_double)
+      expect(sd.write("Hello")).to eq "Go away!"
+    end
   end
 
   context "when unlocked" do
-    pending "gets read"
-
-    pending "gets written"
+    it 'gets read' do
+      diary_double = double("Diary", :read => "Go shoppping", :write => true)
+      sd = SecretDiary.new(diary_double)
+      sd.unlock
+      expect(sd.read).to eq "Go shoppping"
+    end
+    it 'gets written' do
+      diary_double = double("Diary", :read => "Go shoppping")
+      sd = SecretDiary.new(diary_double)
+      sd.unlock
+      allow(diary_double).to receive(:write).with("Eat chips")
+      sd.write("Eat chips")
+    end
   end
 end
